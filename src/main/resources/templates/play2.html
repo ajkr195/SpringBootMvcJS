@@ -1,0 +1,67 @@
+
+<input type="button" class="btn btn-primary" name="myButton" onclick="addAddress()" value="Add Address" />
+
+<form>
+	<input id="salutation-mr" name="salutation" type="radio" value="Mr." />
+	<input id="salutation-mrs" name="salutation" type="radio" value="Mrs." />
+	<input id="salutation-ms" name="salutation" type="radio" value="Ms." />
+	<input class="form-control" id="name" name="name" type="text" />
+	<input class="form-control" id="email" name="email" type="email" />
+	<input class="form-control" id="address_main" name="address_main" type="text" />
+	<select class="form-select" id="preferences" name="preferences">
+		<option>Vegeterian</option>
+		<option>Non Vegeterian</option>
+	</select>
+	<input id="snacks-java" name="expertise" type="checkbox" value="java" />
+	<input id="snacks-springboot" name="expertise" type="checkbox" value="springboot" />
+	<input id="snacks-javascript" name="expertise" type="checkbox" value="javascript" />
+	<input name="secret" type="hidden" value="1abc1234-1abc-4321-1234-1234abcd1234" />
+	<button class="btn btn-sm btn-primary" type="submit">Send Data</button>
+</form>
+
+<div class="results mt-4">
+	<h4>Form Data</h4>
+	<pre></pre>
+</div>
+
+<script>
+	function handleFormSubmit(event) {
+		event.preventDefault();
+		const data = new FormData(event.target);
+		const formJSON = Object.fromEntries(data.entries());
+		formJSON.expertise = data.getAll('expertise');
+		const results = document.querySelector('.results pre');
+		results.innerText = JSON.stringify(formJSON, null, 2);
+		var inputs = document.getElementsByName('address_[]');
+		var i;
+		for (i = 0; i < inputs.length; i++) {
+			var input = inputs[i];
+			console.log(input);
+		}
+	}
+	const form = document.querySelector('.contact-form');
+	form.addEventListener('submit', handleFormSubmit);
+</script>
+
+<script>
+	var i = 0;
+	function addAddress() {
+		i++;
+		var div = document.createElement("div");
+		div.innerHTML = `
+						<div class="input-group mb-3">
+  						<input type="text" class="address-class form-control" id="address_`+ i + `" name="address_` + i + `"' aria-describedby="button-addon2">
+ 						<button class="btn" type="button" id="button-addon2" onclick="removeAddress(this)"><i class="fa-solid fa-trash-can text-danger"></i></button>
+						</div>`;
+
+		document.getElementById("address").appendChild(div);
+		var formData = new FormData(document.querySelector("form"));
+	}
+	function removeAddress(div) {
+		div.parentNode.remove();
+		i--;
+	};
+</script>
+
+
+
